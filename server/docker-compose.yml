@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres-co
+    env_file:
+      - .env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    restart: always
+
+volumes:
+   postgres:
