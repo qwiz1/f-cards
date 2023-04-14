@@ -45,6 +45,14 @@ export class UsersService {
     return user;
   }
 
+  async getByUsernameOrEmail(identifier: string): Promise<User | null> {
+    const user = await this.usersRepository.findOne({
+      relations: { roles: true },
+      where: [{ username: identifier }, { email: identifier }],
+    });
+    return user;
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto): Promise<any> {
     const user = await this.usersRepository.update(id, updateUserDto);
     return user;
