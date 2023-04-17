@@ -1,11 +1,15 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
-import { User } from './users/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
+import { User } from './users/entities/user.entity';
 import { Role } from './roles/entities/role.entity';
+import { UsersController } from './users/users.controller';
+import { AuthController } from './auth/auth.controller';
+import { RolesController } from './roles/roles.controller';
+import { LoggerMiddleware } from './middlewares/middlewares';
 
 @Module({
   imports: [
@@ -25,4 +29,10 @@ import { Role } from './roles/entities/role.entity';
     RolesModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes(AuthController, UsersController, RolesController);
+  }
+}
