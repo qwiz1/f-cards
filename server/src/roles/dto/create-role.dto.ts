@@ -1,4 +1,6 @@
+import { RoleDTOKey } from 'src/common/enums/enums';
+
 export class CreateRoleDto {
-  value: string;
-  description: string;
+  [RoleDTOKey.VALUE]: string;
+  [RoleDTOKey.DESCRIPTION]: string;
 }

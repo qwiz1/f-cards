@@ -1,17 +1,18 @@
 import { User } from 'src/users/entities/user.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { TableName, RoleDTOKey } from 'src/common/enums/enums';
 
-@Entity('roles')
+@Entity(TableName.ROLES)
 export class Role {
   @PrimaryGeneratedColumn()
-  id: number;
+  [RoleDTOKey.ID]: number;
 
   @Column()
-  value: string;
+  [RoleDTOKey.VALUE]: string;
 
   @Column()
-  description: string;
+  [RoleDTOKey.DESCRIPTION]: string;
 
   @ManyToMany(() => User)
-  users: User[];
+  [RoleDTOKey.USERS]: User[];
 }
