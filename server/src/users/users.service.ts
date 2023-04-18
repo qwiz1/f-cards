@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -15,7 +15,7 @@ export class UsersService {
     private rolesService: RolesService,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<TUser> {
+  public async create(createUserDto: CreateUserDto): Promise<TUser> {
     const user = this.usersRepository.create(createUserDto);
     const role = await this.rolesService.getRoleByValue('user');
     user.roles = [role];
@@ -23,42 +23,42 @@ export class UsersService {
     return result;
   }
 
-  async getAll(): Promise<User[]> {
-    const user = await this.usersRepository.find({
+  public getAll(): Promise<User[]> {
+    return this.usersRepository.find({
       relations: { roles: true },
     });
-    return user;
   }
 
-  async getById(id: number): Promise<User | null> {
+  public async getById(id: number): Promise<User> {
     const user = await this.usersRepository.findOneBy({ id: id });
+    if (!user) throw new NotFoundException();
     return user;
   }
 
-  async getByUsername(username: string): Promise<User | null> {
-    const user = await this.usersRepository.findOneBy({ username });
-    return user;
+  public getByUsername(username: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ username });
   }
 
-  async getByEmail(email: string): Promise<User | null> {
-    const user = await this.usersRepository.findOneBy({ email });
-    return user;
+  public getByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ email });
   }
 
-  async getByUsernameOrEmail(identifier: string): Promise<User | null> {
+  public async getByUsernameOrEmail(identifier: string): Promise<User> {
     const user = await this.usersRepository.findOne({
       relations: { roles: true },
       where: [{ username: identifier }, { email: identifier }],
     });
+    if (!user) throw new NotFoundException();
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<any> {
+  public async update(id: number, updateUserDto: UpdateUserDto): Promise<any> {
     const user = await this.usersRepository.update(id, updateUserDto);
+    if (!user) throw new NotFoundException();
     return user;
   }
 
-  async remove(id: number): Promise<User> {
+  public async remove(id: number): Promise<User> {
     const targetUser = await this.getById(id);
     const deletedUser = await this.usersRepository.remove(targetUser);
     return deletedUser;

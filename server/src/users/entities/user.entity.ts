@@ -1,4 +1,3 @@
-import { Role } from 'src/roles/entities/role.entity';
 import {
   Column,
   Entity,
@@ -6,22 +5,24 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Role } from 'src/roles/entities/role.entity';
+import { TableName, UserDTOKey } from 'src/common/enums/enums';
 
-@Entity('users')
+@Entity(TableName.USERS)
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  username: string;
+  [UserDTOKey.ID]: number;
 
   @Column({ unique: true })
-  email: string;
+  [UserDTOKey.USERNAME]: string;
+
+  @Column({ unique: true })
+  [UserDTOKey.EMAIL]: string;
 
   @Column()
-  password: string;
+  [UserDTOKey.PASSWORD]: string;
 
   @ManyToMany(() => Role)
   @JoinTable()
-  roles: Role[];
+  [UserDTOKey.ROLES]: Role[];
 }
