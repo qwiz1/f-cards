@@ -1,5 +1,7 @@
+import { UserDTOKey } from 'src/common/enums/enums';
+
 export class CreateUserDto {
-  username: string;
-  email: string;
-  password: string;
+  [UserDTOKey.USERNAME]: string;
+  [UserDTOKey.EMAIL]: string;
+  [UserDTOKey.PASSWORD]: string;
 }
