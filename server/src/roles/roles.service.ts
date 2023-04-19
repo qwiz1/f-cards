@@ -9,22 +9,20 @@ export class RolesService {
   constructor(
     @InjectRepository(Role) private rolesRepository: Repository<Role>,
   ) {}
-  async create(createRoleDto: CreateRoleDto) {
+
+  async create(createRoleDto: CreateRoleDto): Promise<Role> {
     const role = this.rolesRepository.create(createRoleDto);
     return await this.rolesRepository.save(role);
   }
 
   async getRoleByValue(value: string): Promise<Role> {
     const role = await this.rolesRepository.findOneBy({ value });
-    console.log(role);
     if (!role) throw new NotFoundException();
     return role;
   }
 
-  async getAll() {
-    const roles = await this.rolesRepository.find({
-      relations: { users: true },
-    });
+  async getAll(): Promise<Role[]> {
+    const roles = await this.rolesRepository.find();
     return roles;
   }
 }
