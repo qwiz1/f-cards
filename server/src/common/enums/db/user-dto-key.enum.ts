@@ -4,4 +4,5 @@ export enum UserDTOKey {
   EMAIL = 'email',
   PASSWORD = 'password',
   ROLES = 'roles',
+  DECKS = 'decks',
 }

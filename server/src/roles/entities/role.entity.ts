@@ -12,7 +12,4 @@ export class Role {
 
   @Column()
   [RoleDTOKey.DESCRIPTION]: string;
-
-  @ManyToMany(() => User)
-  [RoleDTOKey.USERS]: User[];
 }
