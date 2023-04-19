@@ -5,12 +5,14 @@ import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { Role } from 'src/roles/entities/role.entity';
 import { User } from 'src/users/entities/user.entity';
+import { Deck } from 'src/decks/entities/deck.entity';
 
 type UserPayload = {
   id: number;
   username: string;
   email: string;
   roles: Role[];
+  decks: Deck[];
 };
 
 type Token = {
