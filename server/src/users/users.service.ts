@@ -25,7 +25,7 @@ export class UsersService {
 
   public getAll(): Promise<User[]> {
     return this.usersRepository.find({
-      relations: { roles: true },
+      relations: { decks: true, roles: true },
     });
   }
 
@@ -45,7 +45,7 @@ export class UsersService {
 
   public async getByUsernameOrEmail(identifier: string): Promise<User> {
     const user = await this.usersRepository.findOne({
-      relations: { roles: true },
+      relations: { decks: true, roles: true },
       where: [{ username: identifier }, { email: identifier }],
     });
     if (!user) throw new NotFoundException();
